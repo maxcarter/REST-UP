@@ -1,10 +1,10 @@
 <?php
 class Response{
-    var $status_code, $message, $data;
+    var $code, $text, $data;
 
     public function __construct(){
-        $this -> status_code = 500;
-        $this -> message = "";
+        $this -> code = 500;
+        $this -> text = "";
         $this -> data = null;
     }
 

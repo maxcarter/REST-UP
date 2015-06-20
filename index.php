@@ -24,8 +24,8 @@ Flight::route('/test', function(){
 Flight::route('GET /'.TABLE, function(){
     $db = Flight::get('db');    
     $response=$db->getValues();
-    $status_code = $response -> status_code;    
-    Flight::json($response, $status_code); 
+    $code = $response -> code;    
+    Flight::json($response, $code); 
 });
 
 
