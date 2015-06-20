@@ -1,6 +1,6 @@
 <?php
 
-require_once 'flight-master/flight/Flight.php';
+require_once 'flight/flight/Flight.php';
 require_once 'config/config.php';
 require_once 'controllers/mysql.php';
 require_once 'models/response.php';
