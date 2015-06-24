@@ -14,9 +14,39 @@ class MySQL_CTRL {
     }
 
     function getValues(){
-        $this -> response -> text = "Not Implemented";
-        $this -> response -> code = 501;
-        $this -> response -> data = [];
+        try {
+            $mysqli = new mysqli($this -> host, $this -> username, $this -> password, $this -> database);
+            $q = "SELECT * FROM " . $this -> table;
+            $query_result = $mysqli->query($q);
+
+            if ($mysqli->connect_errno) {
+                throw new Exception("Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
+            }
+
+            if(!$query_result) {
+                $query_result -> free();
+                $mysqli -> close();
+                throw new Exception('Invalid MySQL Query '.$mysqli->error);
+            }
+
+            $values = array(); 
+            while ($row = $query_result->fetch_assoc()) {
+                $values[] = $row;
+            }
+            $query_result -> free();
+            $mysqli -> close();
+
+            $this -> response -> text = "Sucessfully queried " . $this -> table;
+            $this -> response -> code = 200;
+            $this -> response -> data = $values;
+            
+        }
+        catch(Exception $e) {
+            $this -> response -> text = "Error: " . $e->getMessage();
+            $this -> response -> code = 500;
+            $this -> response -> data = [];
+        } 
+
         return $this -> response;
     }
 

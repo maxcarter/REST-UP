@@ -3,5 +3,5 @@
     define("USERNAME", "root");
     define("PASSWORD", "root");
     define("DATABASE", "sample");
-    define("TABLE", "sample");
+    define("TABLE", "person");
 ?>
