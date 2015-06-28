@@ -140,13 +140,37 @@ class MySQL_CTRL {
     }
 
     function deleteValue($value){
-        $this -> response -> text = "Not Implemented";
-        $this -> response -> code = 501;
-        $this -> response -> data = [];
+        try {
+            $mysqli = new mysqli($this -> host, $this -> username, $this -> password, $this -> database);
+
+            if ($mysqli->connect_errno) {
+                throw new Exception("Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
+            }
+
+            $q = "DELETE FROM " . $this -> table ." WHERE id=?";
+            $stmt = $mysqli -> prepare($q);
+            $bind_params = $stmt -> bind_param('i', $value);        
+            $exec = $stmt -> execute();
+
+            if(!$stmt || !$bind_params || !$exec) {
+                throw new Exception('Invalid MySQL Query '.$mysqli -> error);
+            }  
+
+            $stmt->close();
+            $mysqli->close();
+
+            $this -> response -> text = "id=$value has successfully been deleted.";
+            $this -> response -> code = 200;
+            $this -> response -> data = [];  
+        }
+        catch(Exception $e){
+            $this -> response -> text = "Error: " . $e->getMessage();
+            $this -> response -> code = 500;
+            $this -> response -> data = [];
+        } 
+                
         return $this -> response;
     }
-
-
 }
 
 ?>
