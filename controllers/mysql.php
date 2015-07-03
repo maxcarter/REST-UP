@@ -137,9 +137,65 @@ class MySQL_CTRL {
     }
 
     function putValue($data){
-        $this -> response -> text = "Not Implemented";
-        $this -> response -> code = 501;
-        $this -> response -> data = [];
+        try {
+            $mysqli = new mysqli($this -> host, $this -> username, $this -> password, $this -> database);
+
+            if ($mysqli->connect_errno) {
+                throw new Exception("Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
+            }
+
+            // Ugly method of using DTO to validate data and construct SQL string
+            // Refactor to include validation for invalid JSON
+            $k = "";
+            $v = "";
+            $u = "";
+            $types = "";
+            $valueArray = [];
+            foreach($this -> schema as $key => $value) {
+                $this -> schema -> __set($key, $data[$key]);
+
+                // Constructs SQL keys and values strings
+                $k .= $key . ", ";
+                $v .= "?, ";
+                $u .= $key . " = VALUES(" . $key . "), ";
+                $types .= $this -> getType($this -> schema ->__get($key));
+
+                array_push($valueArray, $this -> schema ->__get($key));
+            }
+            $k = rtrim($k, ', ');
+            $v = rtrim($v, ', ');
+            $u = rtrim($u, ', '); 
+
+            $q =  "INSERT INTO " . $this -> table . "(" . $k . ") VALUES(" . $v . ") ON DUPLICATE KEY UPDATE " . $u;
+            $stmt = $mysqli->prepare($q);  
+            
+            // Use bind_param to avoid injection
+            $params[] = & $types;
+            for($i = 0; $i < sizeof($valueArray); $i++) {
+                $params[] = & $valueArray[$i];
+            }       
+            call_user_func_array(array($stmt, 'bind_param'), $params);
+            $exec = $stmt->execute();
+        
+            if(!$stmt || !$exec) {
+                $stmt->close();
+                $mysqli->close();
+                throw new Exception($mysqli->error);
+            }
+        
+            $stmt->close();
+            $mysqli->close();
+
+            $this -> response -> text = "PUT successfully completed";
+            $this -> response -> code = 200;
+            $this -> response -> data = [];
+        }
+        catch(Exception $e) {
+            $this -> response -> text = "Error: " . $e->getMessage();
+            $this -> response -> code = 500;
+            $this -> response -> data = [];
+        } 
+    
         return $this -> response;
     }
 
