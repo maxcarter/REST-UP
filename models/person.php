@@ -1,8 +1,9 @@
 <?php
 class Person {
-    var $Name, $City, $Email;
+    var $id, $Name, $City, $Email;
 
     public function __construct(){
+        $this -> id = null;
         $this -> Name = null;
         $this -> City = null;
         $this -> Email = null;

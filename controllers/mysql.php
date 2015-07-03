@@ -221,14 +221,16 @@ class MySQL_CTRL {
             $types = "";
             $valueArray = [];
             foreach($this -> schema as $key => $value) {
-                $this -> schema -> __set($key, $data[$key]);
+                if($key != 'id') {
+                    $this -> schema -> __set($key, $data[$key]);
 
-                // Constructs SQL keys and values strings
-                $k .= $key . ", ";
-                $v .= "?, ";
-                $types .= $this -> getType($this -> schema ->__get($key));
+                    // Constructs SQL keys and values strings
+                    $k .= $key . ", ";
+                    $v .= "?, ";
+                    $types .= $this -> getType($this -> schema ->__get($key));
 
-                array_push($valueArray, $this -> schema ->__get($key));
+                    array_push($valueArray, $this -> schema ->__get($key));
+                }
             }
             $k = rtrim($k, ', ');
             $v = rtrim($v, ', ');
