@@ -1,4 +1,4 @@
-# REST-API v0.1
+# REST-API
 
 A customizable Representational State Transfer (REST) Application Program Interface (API). 
 
