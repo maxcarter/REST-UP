@@ -9,8 +9,33 @@ class MySQL_CTRL {
         $this -> password = $password;
         $this -> database = $database;
         $this -> table = $table;
-
         $this -> response = new Response();
+
+        // Custom DTO
+        $this -> schema = new Person();
+    }
+
+    function getType($value) {
+        switch (gettype($value)) {
+            case "string":
+                $type = 's';
+                break;
+            case "integer":
+                $type = 'i';
+                break;
+            case "double":
+                $type = 'd';
+                break;
+            case "boolean":
+                $type = 'b';
+                break;
+            case "NULL":
+                $type = 's';
+                break;
+            default:
+                $type = "s";
+        }
+        return $type;
     }
 
     function getValues(){
@@ -52,7 +77,7 @@ class MySQL_CTRL {
 
     function getValue($value){
         try {
-            $mysqli = new mysqli($this -> host, $this -> username, $this -> password, $this -> database);     
+            $mysqli = new mysqli($this -> host, $this -> username, $this -> password, $this -> database);
             
             if ($mysqli->connect_errno) {
                 throw new Exception("Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
@@ -126,9 +151,62 @@ class MySQL_CTRL {
     }
 
     function postValue($data){
-        $this -> response -> text = "Not Implemented";
-        $this -> response -> code = 501;
-        $this -> response -> data = [];
+        try {
+            $mysqli = new mysqli($this -> host, $this -> username, $this -> password, $this -> database);
+
+            if ($mysqli->connect_errno) {
+                throw new Exception("Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
+            }
+
+            // Ugly method of using DTO to validate data and construct SQL string
+            // Refactor to include validation for invalid JSON
+            $k = "";
+            $v = "";
+            $types = "";
+            $valueArray = [];
+            foreach($this -> schema as $key => $value) {
+                $this -> schema -> __set($key, $data[$key]);
+
+                // Constructs SQL keys and values strings
+                $k .= $key . ", ";
+                $v .= "?, ";
+                $types .= $this -> getType($this -> schema ->__get($key));
+
+                array_push($valueArray, $this -> schema ->__get($key));
+            }
+            $k = rtrim($k, ', ');
+            $v = rtrim($v, ', ');
+
+            $q =  "INSERT INTO " . $this -> table . "(" . $k . ") VALUES(" . $v . ")";
+            $stmt = $mysqli->prepare($q);  
+            
+            // Use bind_param to avoid injection
+            $params[] = & $types;
+            for($i = 0; $i < sizeof($valueArray); $i++) {
+                $params[] = & $valueArray[$i];
+            }       
+            call_user_func_array(array($stmt, 'bind_param'), $params);
+            $exec = $stmt->execute();
+        
+            if(!$stmt || !$exec) {
+                $stmt->close();
+                $mysqli->close();
+                throw new Exception($mysqli->error);
+            }
+        
+            $stmt->close();
+            $mysqli->close();
+
+            $this -> response -> text = "POST successfully completed";
+            $this -> response -> code = 200;
+            $this -> response -> data = [];
+        }
+        catch(Exception $e) {
+            $this -> response -> text = "Error: " . $e->getMessage();
+            $this -> response -> code = 500;
+            $this -> response -> data = [];
+        } 
+    
         return $this -> response;
     }
 

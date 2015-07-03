@@ -4,6 +4,7 @@ require_once 'flight/flight/Flight.php';
 require_once 'config/config.php';
 require_once 'controllers/mysql.php';
 require_once 'models/response.php';
+require_once 'models/person.php';
 
 function connect(){
     return new MySQL_CTRL(HOST, USERNAME, PASSWORD, DATABASE, TABLE);
