@@ -38,13 +38,11 @@ To configure this REST-API to work with your database follow these steps:
 
 1. Modify `config.php` with the appropriate credentials. 
 2. Create your own DTO (Data Transfer Object) and place it in the `models` directory. (see [models/person.php]( https://github.com/maxcarter/REST-API/blob/master/models/person.php) for a sample DTO) 
-3. Import your DTO in `index.php` and your database controller 
 
 
 ## Future Updates
 
 * Live Demo
 * HTTP request documentation
-* Automatic importing of models
 * Multiple table support
 * More database presets
