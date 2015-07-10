@@ -4,12 +4,14 @@ A customizable Representational State Transfer (REST) Application Program Interf
 
 ## Features
 
-* MySQL database preset
-* Protection against MySQL injection
 * Supports basic CRUD (Create Read Update Delete) operations
 * Supports HTTP requests GET POST PUT and DELETE
 * Can interact with anything that can send an HTTP request
+* Data is returned in JSON (JavaScript Object Notation) format
+* MySQL database preset
+* Protection against MySQL injection
 * Interfacing with new tables is as simple as adding new models
+* Customizable controllers to interface with other databases 
 
 ## Installation
 
