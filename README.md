@@ -29,7 +29,7 @@ The sample code is based on the following MySQL table:
 
 ```
 CREATE TABLE `person` (
-  `id` mediumint(8) unsigned NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) DEFAULT NULL,
   `City` varchar(255) DEFAULT NULL,
   `Email` varchar(255) DEFAULT NULL
@@ -39,8 +39,8 @@ CREATE TABLE `person` (
 To insert sample data into this database:
 
 ```
-INSERT INTO `person` (`id`, `Name`, `City`, `Email`) VALUES
-(1, 'Clark Kent', 'Smallville', 'superman@justiceleague.com');
+INSERT INTO `person` (`Name`, `City`, `Email`) VALUES
+('Clark Kent', 'Smallville', 'superman@justiceleague.com');
 ```
 
 
