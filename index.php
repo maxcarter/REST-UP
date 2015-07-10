@@ -14,7 +14,7 @@ foreach($models as $file){
 }
 
 function connect(){
-    return new MySQL_CTRL(HOST, USERNAME, PASSWORD, DATABASE, TABLE);
+    return new Controller(HOST, USERNAME, PASSWORD, DATABASE, TABLE);
 }
 
 Flight::set('db', connect());

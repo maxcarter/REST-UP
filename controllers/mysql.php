@@ -1,6 +1,6 @@
 <?php
 
-class MySQL_CTRL {
+class Controller {
     var $host, $username, $password, $database, $table, $connection;
 
     public function __construct($host, $username, $password, $database, $table){

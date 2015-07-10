@@ -40,6 +40,54 @@ To configure this REST-API to work with your database follow these steps:
 2. Create your own DTO (Data Transfer Object) and place it in the `models` directory. (see [models/person.php]( https://github.com/maxcarter/REST-API/blob/master/models/person.php) for a sample DTO) 
 
 
+## Customize
+
+This REST API can be customized to work with different databases. The default preset is MySQL, however, you can create your own database controller and implement custom functionality simply by creating your own controller.
+
+To create a custom controller follow these steps:
+
+1. Create a new PHP file to implement the *Controller* class (see [controllers/mysql.php](https://github.com/maxcarter/REST-API/blob/master/controllers/mysql.php) for an example)
+2. Ensure your class implements the required CRUD functions.
+3. Modify [config.php](https://github.com/maxcarter/REST-API/blob/master/config/config.php) to include your controller's file name and database credentials. 
+
+### Required Functions
+```
+/**
+ * Create a new entry
+ * @param [object] - The entry to be inserted
+ * @return [object] - JSON result of insertion
+ */
+postValue($data);
+
+/**
+ * Read all entries
+ * @return [array] - An array of objects 
+ */
+getValues();
+
+/**
+ * Read a single entry
+ * @param [int] - The unique id of the entry
+ * @return [object] - The requested entry
+ */
+getValue($value);
+
+/**
+ * Update an entry
+ * @param [object] - The entry to be updated
+ * @return [object] - JSON result of update
+ */
+putValue($data);
+
+/**
+ * Delete a single entry
+ * @param [int] - The unique id of the entry
+ * @return [object] - JSON result of deletion
+ */
+deleteValue($value)
+
+```
+
 ## Future Updates
 
 * Live Demo
