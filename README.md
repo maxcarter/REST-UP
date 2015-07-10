@@ -21,6 +21,7 @@ Once installed you should be able to see the welcome text at: `http://YourDomain
 ### Server Requirements
 
 * PHP v5.6+
+* MySQL v5.6+
 
 ### MySQL Schema
 
