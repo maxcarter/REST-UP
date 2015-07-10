@@ -42,7 +42,7 @@ To configure this REST-API to work with your database follow these steps:
 
 ## Customize
 
-This REST API can be customized to work with different databases. The default preset is MySQL, however, you can create your own database controller and implement custom functionality simply by creating your own controller.
+This REST API can be customized to work with different databases. The default preset is MySQL, however, you can create your own database controller to interface with different databases and implement custom functionality.
 
 To create a custom controller follow these steps:
 
@@ -84,7 +84,7 @@ putValue($data);
  * @param [int] - The unique id of the entry
  * @return [object] - JSON result of deletion
  */
-deleteValue($value)
+deleteValue($value);
 
 ```
 
