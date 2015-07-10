@@ -20,7 +20,7 @@ function connect(){
 Flight::set('db', connect());
 
 Flight::route('/', function(){
-    echo 'hello world!';
+    echo 'Welcome!';
 });
 
 Flight::route('GET /'.TABLE, function(){

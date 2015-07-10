@@ -11,7 +11,18 @@ A customizable Representational State Transfer (REST) Application Program Interf
 * Can interact with anything that can send an HTTP request
 * Interfacing with new tables is as simple as adding new models
 
-## MySQL Schema
+## Installation
+
+Simply extract all files to the desired location in your website directory.
+
+### Test
+Once installed you should be able to see the welcome text at: `http://YourDomain.com/PathToAPI`
+
+### Server Requirements
+
+* PHP v5.6+
+
+### MySQL Schema
 
 The sample code is based on the following MySQL table:
 
@@ -42,7 +53,7 @@ To configure this REST-API to work with your database follow these steps:
 
 ## Customize
 
-This REST API can be customized to work with different databases. The default preset is MySQL, however, you can create your own database controller to interface with different databases and implement custom functionality.
+This REST API can be customized to work with different databases. The default preset is MySQL, however, you can create your own database controller to interface with different databases and implement custom functionality.g
 
 To create a custom controller follow these steps:
 
