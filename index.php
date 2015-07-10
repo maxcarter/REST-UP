@@ -2,8 +2,7 @@
 
 require_once 'flight/flight/Flight.php';
 require_once 'config/config.php';
-require_once 'controllers/mysql.php';
-
+require_once 'controllers/' . CTRL;
 
 // Import all models
 $models_dir = './models';
