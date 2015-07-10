@@ -1,7 +1,7 @@
 <?php
 
 class MySQL_CTRL {
-    var $host, $username, $password, $database, $table;
+    var $host, $username, $password, $database, $table, $connection;
 
     public function __construct($host, $username, $password, $database, $table){
         $this -> host = $host;
@@ -11,10 +11,13 @@ class MySQL_CTRL {
         $this -> table = $table;
         $this -> response = new Response();
 
+        // Establish MySQL connection
+        $this -> connection = new mysqli($this -> host, $this -> username, $this -> password, $this -> database);
+
         // Custom DTO
         $this -> schema = new Person();
     }
-
+ 
     function getType($value) {
         switch (gettype($value)) {
             case "string":
@@ -40,7 +43,7 @@ class MySQL_CTRL {
 
     function getValues(){
         try {
-            $mysqli = new mysqli($this -> host, $this -> username, $this -> password, $this -> database);
+            $mysqli = $this -> connection;
             $q = "SELECT * FROM " . $this -> table;
             $query_result = $mysqli->query($q);
 
@@ -77,7 +80,7 @@ class MySQL_CTRL {
 
     function getValue($value){
         try {
-            $mysqli = new mysqli($this -> host, $this -> username, $this -> password, $this -> database);
+            $mysqli = $this -> connection;
             
             if ($mysqli->connect_errno) {
                 throw new Exception("Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
@@ -138,7 +141,7 @@ class MySQL_CTRL {
 
     function putValue($data){
         try {
-            $mysqli = new mysqli($this -> host, $this -> username, $this -> password, $this -> database);
+            $mysqli = $this -> connection;
 
             if ($mysqli->connect_errno) {
                 throw new Exception("Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
@@ -208,7 +211,7 @@ class MySQL_CTRL {
 
     function postValue($data){
         try {
-            $mysqli = new mysqli($this -> host, $this -> username, $this -> password, $this -> database);
+            $mysqli = $this -> connection;
 
             if ($mysqli->connect_errno) {
                 throw new Exception("Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
@@ -277,7 +280,7 @@ class MySQL_CTRL {
 
     function deleteValue($value){
         try {
-            $mysqli = new mysqli($this -> host, $this -> username, $this -> password, $this -> database);
+            $mysqli = $this -> connection;
 
             if ($mysqli->connect_errno) {
                 throw new Exception("Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
