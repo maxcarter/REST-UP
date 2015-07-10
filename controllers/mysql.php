@@ -132,13 +132,6 @@ class MySQL_CTRL {
         return $this -> response; 
     }
 
-    function putValues($data){
-        $this -> response -> text = "Not Implemented";
-        $this -> response -> code = 501;
-        $this -> response -> data = [];
-        return $this -> response;
-    }
-
     function putValue($data){
         try {
             $mysqli = $this -> connection;
@@ -202,13 +195,6 @@ class MySQL_CTRL {
         return $this -> response;
     }
 
-    function postValues($data){
-        $this -> response -> text = "Not Implemented";
-        $this -> response -> code = 501;
-        $this -> response -> data = [];
-        return $this -> response;
-    }
-
     function postValue($data){
         try {
             $mysqli = $this -> connection;
@@ -268,13 +254,6 @@ class MySQL_CTRL {
             $this -> response -> data = [];
         } 
     
-        return $this -> response;
-    }
-
-    function deleteValues(){
-        $this -> response -> text = "Not Implemented";
-        $this -> response -> code = 501;
-        $this -> response -> data = [];
         return $this -> response;
     }
 
