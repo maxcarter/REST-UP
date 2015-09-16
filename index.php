@@ -6,7 +6,7 @@ require_once 'core/Engine.php';
 
 $request = new Request();
 $route = new Route();
-$engine = new Engine();
+
 
 
 
@@ -15,14 +15,13 @@ $route -> add("GET", "/about", function(){
 	echo 'hello world';
 });
 
-$route -> add("GET", "/max/:test/:hello", function($test, $hello){
+$route -> add("GET", "/max/a/:test/:hello", function($test, $hello){
 	echo $test . '<br>';
 	echo $hello . '<br>';
 });
 
 
-
-$engine -> init($route, $request);
+$engine = new Engine($route, $request);
 
 
 
