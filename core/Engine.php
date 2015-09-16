@@ -11,8 +11,6 @@ class Engine
 
         $r = $routes->__get(routes);
 
-        //print_r($r);
-
         $req_size = sizeof($request->__get(query));
 
         // 1 => /a 
@@ -24,16 +22,19 @@ class Engine
 
                 $req = $request->__get(query);
 
-                if($req_size == 1){
-                    $temp = trim($value['route'], '/');
-                    if(preg_match("#^$temp$#", $req[0])){
-                        $func = $value['callback'];
-                        if(is_callable($func)){
-                            echo 'callable';
-                            call_user_func($func);
-                        }
+                // temp becomes array of the route
+                $temp = explode("/", rtrim(trim($value['route'], '/'), '/'));
+
+                // pops off head of array
+                $head = array_shift($req);
+
+                if(preg_match("#^$temp[0]$#", $head)){
+                    $func = $value['callback'];
+                    if(is_callable($func)){
+                        call_user_func_array($func, $req);
                     }
                 }
+            
 
                 
             }
