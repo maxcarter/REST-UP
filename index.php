@@ -15,7 +15,7 @@ $route -> add("GET", "/about", function(){
 	echo 'hello world';
 });
 
-$route -> add("GET", "/max/test/hello", function($test, $hello){
+$route -> add("GET", "/max/:test/:hello", function($test, $hello){
 	echo $test . '<br>';
 	echo $hello . '<br>';
 });

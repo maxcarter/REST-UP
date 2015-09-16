@@ -22,16 +22,26 @@ class Engine
 
                 $req = $request->__get(query);
 
-                // temp becomes array of the route
-                $temp = explode("/", rtrim(trim($value['route'], '/'), '/'));
+                // route becomes array of the route components
+                $route = explode("/", rtrim(trim($value['route'], '/'), '/'));
 
-                // pops off head of array
-                $head = array_shift($req);
+                $params = array();
 
-                if(preg_match("#^$temp[0]$#", $head)){
+                // Removes head of array
+                $reqHead = array_shift($req);
+                $routeHead = array_shift($route);
+
+
+                if( sizeof($req) == sizeof($route) && preg_match("#^$routeHead$#", $reqHead)){
+                    for ($i=0; $i < sizeof($route); $i++) { 
+                        if($route[$i][0] == ':'){
+                            $params[] = $req[$i];
+                        }
+                    }
+
                     $func = $value['callback'];
                     if(is_callable($func)){
-                        call_user_func_array($func, $req);
+                        call_user_func_array($func, $params);
                     }
                 }
             
