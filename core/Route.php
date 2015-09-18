@@ -6,7 +6,7 @@
 class Route
 {
     
-    var $routes, $request;
+    var $routes, $request, $data;
 
     public function __construct(){  
         $this->routes = array();
