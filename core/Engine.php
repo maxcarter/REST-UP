@@ -23,6 +23,9 @@ class Engine
     public function getRequest(){
         return $this -> request;
     }
+    public function getRequestData(){
+        return $this -> request -> __get(data);
+    }
     public function start(){
         $router = new Router($this -> getRoutes(), $this -> getRequest());
     }

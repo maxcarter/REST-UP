@@ -41,6 +41,16 @@ $app -> route("GET", "/".TABLE."/id/:id", function($id) use (&$app){
     $app -> json($response, $code);
 });
 
+
+$app -> route("POST", "/".TABLE, function() use (&$app){
+    $db = connect(); 
+    $data = $app -> getRequestData();
+    $response = $db->postValue($data);
+    $code = $response -> code;   
+    $app -> json($response, $code); 
+});
+
+
 $app -> start();
 
 ?>

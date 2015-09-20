@@ -3,13 +3,15 @@
 
 class Request
 {
-	var $url, $type, $length, $query, $data;
+	var $url, $type, $length, $query, $data, $method;
 	
 	public function __construct($config) {
 		$this -> url    = $this -> getVar('REQUEST_URI', '/');
 		$this -> type   = $this -> getVar('CONTENT_TYPE');
+		$this -> method = $this -> getVar('REQUEST_METHOD');
 		$this -> length = $this -> getVar('CONTENT_LENGTH', 0);
-		$this -> query  = explode("/", rtrim($_GET['uri'], '/'));
+		$this -> query  = explode("/", rtrim($_REQUEST['uri'], '/'));
+		$this -> data   = $_POST;
 		//$this -> query = $_GET;
 		//$this -> data = $_POST;
 	}
