@@ -1,14 +1,13 @@
 <?php
 
-require_once 'core/Route.php';
-require_once 'core/Request.php';
-require_once 'core/Router.php';
+require_once 'core/Core.php';
 
 require_once 'config/config.php';
 require_once 'controllers/' . CTRL;
 
-$request = new Request();
-$route = new Route();
+$app = new Core();
+
+
 
 // Import all models
 $models_dir = './models';
@@ -24,20 +23,19 @@ function connect(){
 }
 
 
-$route -> add("GET", "/", function(){
-	echo "Welcome!";
+$app -> route("GET", "/", function(){
+    echo "Welcome!";
 });
 
-$route -> add("GET", "/".TABLE, function(){
-	$db = connect();
-    $response=$db->getValues();
-    $code = $response -> code;    
-    print_r(json_encode($response)); 
+$app -> route("GET", "/".TABLE, function(){
+    $db = connect();
+    $r=$db->getValues();
+    $code = $r -> code;    
+    print_r(json_encode($r)); 
 });
 
 
-$router = new Router($route, $request);
 
-
+$app -> start();
 
 ?>
