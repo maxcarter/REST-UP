@@ -2,7 +2,7 @@
 
 A customizable Representational State Transfer (REST) Application Program Interface (API). 
 
-*Notice*: this repository is currently under construction.
+**Note**: this repository is currently under construction.
 
 ## Features
 
