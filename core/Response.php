@@ -5,10 +5,10 @@
 
 class Resp
 {
-    var $status, $codes, $header, $body;
+    var $status, $codes, $headers, $body;
 
     public function __construct(){  
-        $this -> header = array();
+        $this -> headers = array();
         $this -> status = 200;
         $this -> codes = $http_codes = array(
             100 => 'Continue',
@@ -68,12 +68,67 @@ class Resp
             510 => 'Not Extended'
         );
     }
+    public function __get($property) {
+        if (property_exists($this, $property)) {
+            return $this->$property;
+        }
+    }
+
     public function status($code = null) {
         if (array_key_exists($code, $this -> $codes) && $code != null) {
             $this -> status = $code;
         }
-        echo 'yo dog';
         return $this -> status;
+    }
+
+    public function setHeaders($name, $value = null) {
+        if (is_array($name)) {
+            foreach ($name as $key => $val) {
+                $this -> headers[$key] = $val;
+            }
+        } else {
+            $this -> headers[$name] = $value;
+        }
+        return $this;
+    }
+
+    public function write($content) {
+        $this -> body = $content;
+        return $this;
+    }
+
+
+    public function send() {
+
+        //Send Headers 
+        if (!headers_sent()) {
+            //status code
+            if (strpos(php_sapi_name(), 'cgi') !== false) {
+                header("Status: " + $this -> status + " " + $this -> codes[$this -> status], true);
+            } else {
+                $protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1');
+                header($protocol + " " + $this -> status + " " + $this -> codes[$this -> status], true, $this->status);
+            }
+
+            //headers
+            foreach ($this -> headers as $key => $value) {
+                if (is_array($value)) {
+                    foreach ($value as $v) {
+                        header($key . ': ' . $v, false);
+                    }
+                } else {
+                    header($key . ': ' . $value);
+                }
+            }
+
+            //content length
+            $length = strlen($this -> body);
+            if ($length > 0) {
+                header('Content-Length: ' . $length);
+            }
+        }
+
+        exit($this -> body);
     }
 }
 ?>

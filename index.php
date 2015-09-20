@@ -23,18 +23,16 @@ function connect(){
 }
 
 
-$app -> route("GET", "/", function(){
+$app -> route("GET", "/", function() use (&$app){
     echo "Welcome!";
 });
 
-$app -> route("GET", "/".TABLE, function(){
+$app -> route("GET", "/".TABLE, function() use (&$app){
     $db = connect();
-    $r=$db->getValues();
-    $code = $r -> code;    
-    print_r(json_encode($r)); 
+    $response = $db -> getValues();
+    $code = $response -> code;    
+    $app -> json($response, $code);
 });
-
-
 
 $app -> start();
 
