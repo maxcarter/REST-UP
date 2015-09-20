@@ -1,13 +1,10 @@
 <?php
 
 require_once 'core/Core.php';
-
 require_once 'config/config.php';
 require_once 'controllers/' . CTRL;
 
 $app = new Core();
-
-
 
 // Import all models
 $models_dir = './models';
@@ -21,7 +18,6 @@ foreach($models as $file){
 function connect(){
     return new Controller(HOST, USERNAME, PASSWORD, DATABASE, TABLE);
 }
-
 
 $app -> route("GET", "/", function() use (&$app){
     echo "Welcome!";
@@ -42,12 +38,27 @@ $app -> route("GET", "/".TABLE."/id/:id", function($id) use (&$app){
 });
 
 
+$app -> route("PUT", "/".TABLE, function() use (&$app){
+    $db = connect(); 
+    $data = $app -> getRequestData();
+    $response = $db->putValue($data);
+    $code = $response -> code;   
+    $app -> json($response, $code); 
+});
+
 $app -> route("POST", "/".TABLE, function() use (&$app){
     $db = connect(); 
     $data = $app -> getRequestData();
     $response = $db->postValue($data);
     $code = $response -> code;   
     $app -> json($response, $code); 
+});
+
+$app -> route("DELETE", "/".TABLE."/id/:id", function($id) use (&$app){
+    $db = connect();
+    $response = $db -> deleteValue($id);
+    $code = $response -> code;    
+    $app -> json($response, $code);
 });
 
 
