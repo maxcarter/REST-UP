@@ -1,16 +1,25 @@
 <?php
-/**
-* 
-*/
 
-class Resp
-{
+/**
+ * The Resp class sends the http response
+ * from the framework
+ */
+class Resp {
+    /**
+     * @var number $status HTTP status code
+     * @var array $codes List of all valid HTTP status codes
+     * @var array $headers List of headers
+     * @var array $body Response body
+     */
     var $status, $codes, $headers, $body;
 
-    public function __construct(){  
+    /**
+     * Constructor
+     */
+    public function __construct() {  
         $this -> headers = array();
-        $this -> status = 200;
-        $this -> codes = $http_codes = array(
+        $this -> status  = 200;
+        $this -> codes   = array(
             100 => 'Continue',
             101 => 'Switching Protocols',
             102 => 'Processing',
@@ -48,7 +57,6 @@ class Resp
             415 => 'Unsupported Media Type',
             416 => 'Requested Range Not Satisfiable',
             417 => 'Expectation Failed',
-            418 => 'I\'m a teapot',
             422 => 'Unprocessable Entity',
             423 => 'Locked',
             424 => 'Failed Dependency',
@@ -68,12 +76,25 @@ class Resp
             510 => 'Not Extended'
         );
     }
+
+    /**
+     * Get magic accessor method
+     *
+     * @param mixed $property The variable to accessed
+     * @return mixed The variable 
+     */
     public function __get($property) {
         if (property_exists($this, $property)) {
             return $this->$property;
         }
     }
 
+    /**
+     * Sets the status code
+     *
+     * @param  number $code The status code
+     * @return number The status code
+     */
     public function status($code = null) {
         if (array_key_exists($code, $this -> $codes) && $code != null) {
             $this -> status = $code;
@@ -81,6 +102,12 @@ class Resp
         return $this -> status;
     }
 
+    /**
+     * Sets the headers
+     *
+     * @param string $name Header name
+     * @param string $value Header value
+     */
     public function setHeaders($name, $value = null) {
         if (is_array($name)) {
             foreach ($name as $key => $val) {
@@ -92,12 +119,20 @@ class Resp
         return $this;
     }
 
+    /**
+     * Sets the body of the response
+     *
+     * @param array $content Response body
+     */
     public function write($content) {
         $this -> body = $content;
         return $this;
     }
 
 
+    /**
+     * Sends the response
+     */
     public function send() {
 
         //Send Headers 
