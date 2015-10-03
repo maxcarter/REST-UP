@@ -1,6 +1,6 @@
 # REST-UP
 
-A customizable Representational State Transfer (REST) Application Program Interface (API). 
+A customizable Representational State Transfer (REST) Application Program Interface (API) designed to provide a quick set of tools for developers to quickly build their own API. 
 
 **Note**: this repository is currently under construction.
 
@@ -17,7 +17,13 @@ A customizable Representational State Transfer (REST) Application Program Interf
 
 ## Installation
 
-Simply extract all files to the desired location in your website directory.
+[Composer](https://getcomposer.org/):
+
+```
+composer require maxcarter/REST-UP
+```
+
+OR simply extract all files to the desired location in your website directory.
 
 ### Test
 Once installed you should be able to see the welcome text at: `http://YourDomain.com/PathToAPI`

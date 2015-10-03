@@ -1,0 +1,13 @@
+{
+    "name": "maxcarter/REST-UP",
+    "description": "A customizable Representational State Transfer (REST) Application Program Interface (API) designed to provide a quick set of tools for developers to quickly build their own API.",
+    "authors": [{
+        "name": "Maxwell Carter",
+        "email": "",
+        "homepage": "http://www.maxwellcarter.com/",
+        "role": "Developer"
+    }],
+    "require": {
+        "php": ">=5.3.0"
+    }
+}
