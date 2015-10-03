@@ -1,12 +1,17 @@
 {
     "name": "maxcarter/restup",
     "description": "A customizable Representational State Transfer (REST) Application Program Interface (API) designed to provide a quick set of tools for developers to quickly build their own API.",
-    "authors": [
-        {
-            "name": "maxcarter",
-            "email": "max4carter@gmail.com"
-        }
-    ],
+    "authors": [{
+        "name": "maxcarter",
+        "email": "max4carter@gmail.com",
+        "homepage": "http://www.maxwellcarter.com/",
+        "role": "Developer"
+    }],
+    "minimum-stability": "dev",
+    "repositories": [{
+        "type": "vcs",
+        "url": "https://github.com/maxcarter/REST-UP"
+    }],
     "require": {
         "php": ">=5.3.0"
     }

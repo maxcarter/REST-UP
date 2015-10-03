@@ -20,7 +20,7 @@ A customizable Representational State Transfer (REST) Application Program Interf
 [Composer](https://getcomposer.org/):
 
 ```
-composer require maxcarter/REST-UP
+composer require maxcarter/restup
 ```
 
 OR simply extract all files to the desired location in your website directory.
