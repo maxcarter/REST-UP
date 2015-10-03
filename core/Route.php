@@ -14,7 +14,7 @@ class Route {
      * Constructor
      */
     public function __construct(){  
-        $this->routes = array();
+        $this -> routes = array();
     }
 
     /**
@@ -25,7 +25,7 @@ class Route {
      */
     public function __get($property) {
         if (property_exists($this, $property)) {
-            return $this->$property;
+            return $this -> $property;
         }
     }
 
@@ -37,7 +37,7 @@ class Route {
      */
     public function __set($property, $value) {
         if (property_exists($this, $property)) {
-            $this->$property = $value;
+            $this -> $property = $value;
         }
         return $this;
     }
@@ -49,13 +49,17 @@ class Route {
      * @param string $pattern The route URI
      * @param method $callback The callback function
      */
-    public function add($request, $pattern, $callback){
-        // TODO: add some security here
-        $this->routes[] = array(
-                'route'    => $pattern,
-                'type'     => $request,
-                'callback' => $callback
-            );
+    public function add($request, $pattern, $callback) {
+        $valid_requests = array("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT");
+        if (is_string($request) && is_string($pattern) && is_callable($callback)) {
+            if (in_array(strtoupper($request), $valid_requests)) {
+                $this -> routes[] = array(
+                    'route'    => $pattern,
+                    'type'     => $request,
+                    'callback' => $callback
+                );
+            }
+        }
     }
 }
 ?>
