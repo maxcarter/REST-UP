@@ -66,6 +66,8 @@ foreach ($TABLES as $table) {
     }
 }
 
+require_once 'plugins/routes.php';
+
 $app -> start();
 
 ?>
