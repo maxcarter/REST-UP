@@ -17,13 +17,18 @@ A customizable Representational State Transfer (REST) Application Program Interf
 
 ## Installation
 
-[Composer](https://getcomposer.org/):
+REST-UP can be installed using [composer](https://getcomposer.org/):
 
 ```
 composer require maxcarter/restup
 ```
 
-OR simply extract all files to the desired location in your website directory.
+OR by simply extracting all files to the desired location in your website directory:
+
+```
+git clone https://github.com/maxcarter/REST-UP.git
+rsync -r REST-UP/* Path/To/Destination
+```
 
 ### Test
 Once installed you should be able to see the welcome text at: `http://YourDomain.com/PathToAPI`
