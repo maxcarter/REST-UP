@@ -8,59 +8,63 @@ $app = new Core();
 
 // Import all models
 $models_dir = './models';
-$models = scandir($models_dir);
-foreach($models as $file){
+$files = scandir($models_dir);
+$models = array();
+foreach($files as $file){
     if (strpos($file,'.php') !== false) {
+        array_push($models, $file);
         require_once $models_dir . '/' . $file;
     } 
 }
 
-function connect(){
-    return new Controller(HOST, USERNAME, PASSWORD, DATABASE, TABLE);
+function connect ($table = TABLE, $host = HOST, $username = USERNAME, $password = PASSWORD, $database = DATABASE) {
+    return new Controller($host, $username, $password, $database, $table);
 }
 
 $app -> route("GET", "/", function() use (&$app){
     echo "Welcome!";
 });
 
-$app -> route("GET", "/".TABLE, function() use (&$app){
-    $db = connect();
-    $response = $db -> getValues();
-    $code = $response -> code;    
-    $app -> json($response, $code);
-});
-
-$app -> route("GET", "/".TABLE."/id/:id", function($id) use (&$app){
-    $db = connect();
-    $response = $db -> getValue($id);
-    $code = $response -> code;    
-    $app -> json($response, $code);
-});
-
-
-$app -> route("PUT", "/".TABLE, function() use (&$app){
-    $db = connect(); 
-    $data = $app -> getRequestData();
-    $response = $db->putValue($data);
-    $code = $response -> code;   
-    $app -> json($response, $code); 
-});
-
-$app -> route("POST", "/".TABLE, function() use (&$app){
-    $db = connect(); 
-    $data = $app -> getRequestData();
-    $response = $db->postValue($data);
-    $code = $response -> code;   
-    $app -> json($response, $code); 
-});
-
-$app -> route("DELETE", "/".TABLE."/id/:id", function($id) use (&$app){
-    $db = connect();
-    $response = $db -> deleteValue($id);
-    $code = $response -> code;    
-    $app -> json($response, $code);
-});
-
+foreach ($TABLES as $table) {
+    if(in_array($table . ".php", $models)){
+        $app -> route("GET", "/".$table, function() use (&$app, $table){
+            $db = connect($table);
+            $response = $db -> getValues();
+            $code = $response -> code;    
+            $app -> json($response, $code);
+        });
+        
+        $app -> route("GET", "/".$table."/id/:id", function($id) use (&$app, $table){
+            $db = connect($table);
+            $response = $db -> getValue($id);
+            $code = $response -> code;    
+            $app -> json($response, $code);
+        });
+        
+        $app -> route("PUT", "/".$table, function() use (&$app, $table){
+            $db = connect($table); 
+            $data = $app -> getRequestData();
+            $response = $db->putValue($data);
+            $code = $response -> code;   
+            $app -> json($response, $code); 
+        });
+        
+        $app -> route("POST", "/".$table, function() use (&$app, $table){
+            $db = connect($table); 
+            $data = $app -> getRequestData();
+            $response = $db->postValue($data);
+            $code = $response -> code;   
+            $app -> json($response, $code); 
+        });
+        
+        $app -> route("DELETE", "/".$table."/id/:id", function($id) use (&$app, $table){
+            $db = connect($table);
+            $response = $db -> deleteValue($id);
+            $code = $response -> code;    
+            $app -> json($response, $code);
+        });
+    }
+}
 
 $app -> start();
 

@@ -17,15 +17,39 @@ class Engine {
      * @var object $router Framework Router 
      * @var object $response Framework Response
      */
-    var $route, $request, $router, $response;
+    var $route, $request, $router, $response, $variables;
 
     /**
      * Constructor
      */
     public function __construct() {
-        $this -> route    = new Route();
-        $this -> request  = new Request();
-        $this -> response = new Resp();
+        $this -> route     = new Route();
+        $this -> request   = new Request();
+        $this -> response  = new Resp();
+        $this -> variables = array();
+    }
+
+    /**
+     * Sets a global variable
+     *
+     * @param string $key the variable name
+     * @param mixed $value the variable value
+     */
+    public function setVar($key, $value) {
+        $this -> variables[$key] = $value;
+    }
+
+    /**
+     * Gets a global variable
+     *
+     * @param string $key the variable name
+     */
+    public function getVar($key) {
+        if (array_key_exists($key, $this -> variables)) {
+            return $this -> variables[$key];
+        } else {
+            return null;
+        }
     }
 
     /**

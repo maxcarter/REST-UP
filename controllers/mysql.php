@@ -15,7 +15,8 @@ class Controller {
         $this -> connection = new mysqli($this -> host, $this -> username, $this -> password, $this -> database);
 
         // Custom DTO
-        $this -> schema = new Person();
+        $DTO = ucfirst($table);
+        $this -> schema = new $DTO();        
     }
  
     function getType($value) {

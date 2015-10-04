@@ -116,5 +116,4 @@ deleteValue($value);
 
 * Live Demo
 * HTTP request documentation
-* Multiple table support
 * More database presets
